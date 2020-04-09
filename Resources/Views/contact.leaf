@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Наша контакная информация</h1>
+  <p>Обращайтесь<a href="https://swiftbook.ru"> </a></p>
+    #ember("footer")
+</body>
+</html>

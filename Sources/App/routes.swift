@@ -1,20 +1,33 @@
 import Vapor
+ import Leaf
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
-    // Basic "It works" example
-    router.get { req in
-        return "It works!"
+   
+    router.get { req -> Future<View> in
+        let context = [String: String]()
+        return try req.view().render("home", context)
     }
     
-    // Basic "Hello, world!" example
-    router.get("hello") { req in
-        return "Hello, world!"
+    router.get ("help", String.parameter) { req -> Future<View > in
+        let topic = try req.parameters.next(String.self)
+        let topics = [
+            "swift" : "Swift - классный язык  "
+         ]
+        
+        struct HelpView : Codable {
+            var topic: String?
+            var answer: String?
+            
+        }
+        let answer = topics[topic]  ?? topics["default"]!
+         let context = HelpView(topic: topic, answer: answer )
+        
+        return try req.view().render("help", context)
     }
-
-    // Example of configuring a controller
-    let todoController = TodoController()
-    router.get("todos", use: todoController.index)
-    router.post("todos", use: todoController.create)
-    router.delete("todos", Todo.parameter, use: todoController.delete)
+    
+    router.get("contact") { req -> Future<View> in
+        let context = [String: String]()
+        return try req.view().render("contact", context)
+    }
 }
